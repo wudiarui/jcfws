@@ -3,7 +3,7 @@ package org.jerry.frameworks.base.repository.support;
 import org.jerry.frameworks.base.entity.AbstractEntity;
 import org.jerry.frameworks.base.repository.BaseRepository;
 import org.jerry.frameworks.base.repository.callback.SearchCallback;
-import org.jerry.frameworks.base.repository.impl.SimpleBaseRepository;
+import org.jerry.frameworks.base.repository.SimpleBaseRepository;
 import org.jerry.frameworks.base.repository.support.annotation.SearchableQuery;
 import org.springframework.beans.BeanUtils;
 import org.springframework.core.annotation.AnnotationUtils;
@@ -11,8 +11,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.support.JpaEntityInformation;
 import org.springframework.data.jpa.repository.support.JpaRepositoryFactory;
 import org.springframework.data.jpa.repository.support.JpaRepositoryFactoryBean;
+import org.springframework.data.repository.core.RepositoryInformation;
 import org.springframework.data.repository.core.RepositoryMetadata;
 import org.springframework.data.repository.core.support.RepositoryFactorySupport;
+import org.springframework.data.repository.query.EvaluationContextProvider;
 import org.springframework.data.repository.query.QueryLookupStrategy;
 import org.springframework.util.StringUtils;
 
@@ -30,20 +32,25 @@ public class SimpleBaseRepositoryFactoryBean<R extends JpaRepository<T, ID>, T, 
     public SimpleBaseRepositoryFactoryBean() {}
 
     protected RepositoryFactorySupport createRepositoryFactory(EntityManager entityManager) {
-        return new SimpleBeseRepositoryFactory(entityManager);
+        return new SimpleBaseRepositoryFactory(entityManager);
     }
 }
 
-class SimpleBeseRepositoryFactory<T extends AbstractEntity, ID extends Serializable> extends JpaRepositoryFactory {
+class SimpleBaseRepositoryFactory<T extends AbstractEntity, ID extends Serializable> extends JpaRepositoryFactory {
 
     private EntityManager entityManager;
 
-    public SimpleBeseRepositoryFactory(EntityManager entityManager) {
+    public SimpleBaseRepositoryFactory(EntityManager entityManager) {
         super(entityManager);
         this.entityManager = entityManager;
     }
 
-    protected Object getTargetRepository(RepositoryMetadata metadata) {
+    @Override
+    protected Object getTargetRepository(RepositoryInformation information) {
+        return this.getTargetRepositoryWithMetadata(information);
+    }
+
+    protected Object getTargetRepositoryWithMetadata(RepositoryMetadata metadata) {
         Class<?> repositoryInterface = metadata.getRepositoryInterface();
 
         if (isBaseRepository(repositoryInterface)) {
@@ -86,7 +93,7 @@ class SimpleBeseRepositoryFactory<T extends AbstractEntity, ID extends Serializa
     }
 
     @Override
-    protected QueryLookupStrategy getQueryLookupStrategy(QueryLookupStrategy.Key key) {
-        return super.getQueryLookupStrategy(key);
+    protected QueryLookupStrategy getQueryLookupStrategy(QueryLookupStrategy.Key key, EvaluationContextProvider evaluationContextProvider) {
+        return super.getQueryLookupStrategy(key, evaluationContextProvider);
     }
 }

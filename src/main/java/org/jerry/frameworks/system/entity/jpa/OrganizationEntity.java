@@ -1,6 +1,6 @@
 package org.jerry.frameworks.system.entity.jpa;
 
-import org.jerry.frameworks.base.entity.jdbc.BaseEntity;
+import org.jerry.frameworks.base.entity.jpa.BaseEntity;
 
 import javax.persistence.*;
 

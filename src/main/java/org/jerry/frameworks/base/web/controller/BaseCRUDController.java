@@ -1,6 +1,6 @@
 package org.jerry.frameworks.base.web.controller;
 
-import org.jerry.frameworks.base.Constants;
+import org.jerry.frameworks.base.constants.Constants;
 import org.jerry.frameworks.base.biz.BaseBiz;
 import org.jerry.frameworks.base.entity.AbstractEntity;
 import org.jerry.frameworks.base.entity.search.Searchable;

@@ -1,6 +1,6 @@
 package org.jerry.frameworks.system.entity.jpa;
 
-import org.jerry.frameworks.base.entity.jdbc.BaseEntity;
+import org.jerry.frameworks.base.entity.jpa.BaseEntity;
 
 import javax.persistence.*;
 
@@ -14,15 +14,23 @@ import javax.persistence.*;
 @Table(name = "sys_group_relation", schema = "eam")
 public class GroupRelationEntity extends BaseEntity<Long> {
 
+    @Column(name = "group_id")
     private Long groupId;
+
+    @Column(name = "organization_id")
     private Long organizationId;
+
+    @Column(name = "user_id")
     private Long userId;
+
+    @Column(name = "start_user_id")
     private Long startUserId;
+
+    @Column(name = "end_user_id")
     private Long endUserId;
 
 
-    @Basic
-    @Column(name = "group_id")
+
     public Long getGroupId() {
         return groupId;
     }
@@ -31,8 +39,7 @@ public class GroupRelationEntity extends BaseEntity<Long> {
         this.groupId = groupId;
     }
 
-    @Basic
-    @Column(name = "organization_id")
+
     public Long getOrganizationId() {
         return organizationId;
     }
@@ -41,8 +48,7 @@ public class GroupRelationEntity extends BaseEntity<Long> {
         this.organizationId = organizationId;
     }
 
-    @Basic
-    @Column(name = "user_id")
+
     public Long getUserId() {
         return userId;
     }
@@ -51,8 +57,6 @@ public class GroupRelationEntity extends BaseEntity<Long> {
         this.userId = userId;
     }
 
-    @Basic
-    @Column(name = "start_user_id")
     public Long getStartUserId() {
         return startUserId;
     }
@@ -61,8 +65,7 @@ public class GroupRelationEntity extends BaseEntity<Long> {
         this.startUserId = startUserId;
     }
 
-    @Basic
-    @Column(name = "end_user_id")
+
     public Long getEndUserId() {
         return endUserId;
     }

@@ -1,4 +1,4 @@
-package org.jerry.frameworks.base.repository.support;
+package org.jerry.frameworks.base.repository;
 
 import org.jerry.frameworks.base.entity.AbstractEntity;
 import org.jerry.frameworks.base.entity.search.Searchable;

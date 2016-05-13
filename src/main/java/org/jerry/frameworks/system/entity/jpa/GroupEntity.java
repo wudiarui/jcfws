@@ -1,6 +1,7 @@
 package org.jerry.frameworks.system.entity.jpa;
 
 import org.jerry.frameworks.base.entity.jpa.BaseEntity;
+import org.jerry.frameworks.system.entity.jpa.emun.GroupType;
 
 import javax.persistence.*;
 
@@ -15,12 +16,16 @@ import javax.persistence.*;
 public class GroupEntity extends BaseEntity<Long> {
 
     private String name;
-    private String type;
-    private Byte isShow;
-    private Byte defaultGroup;
 
-    @Basic
-    @Column(name = "name")
+    @Enumerated(EnumType.STRING)
+    private GroupType type;
+
+    @Column(name = "is_show")
+    private Boolean isShow = Boolean.FALSE;
+
+    @Column(name = "default_group")
+    private Boolean defaultGroup = Boolean.FALSE;
+
     public String getName() {
         return name;
     }
@@ -29,34 +34,27 @@ public class GroupEntity extends BaseEntity<Long> {
         this.name = name;
     }
 
-    @Basic
-    @Column(name = "type")
-    public String getType() {
+    public GroupType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(GroupType type) {
         this.type = type;
     }
 
-    @Basic
-    @Column(name = "is_show")
-    public Byte getIsShow() {
+    public Boolean getShow() {
         return isShow;
     }
 
-    public void setIsShow(Byte isShow) {
-        this.isShow = isShow;
+    public void setShow(Boolean show) {
+        isShow = show;
     }
 
-    @Basic
-    @Column(name = "default_group")
-    public Byte getDefaultGroup() {
+    public Boolean getDefaultGroup() {
         return defaultGroup;
     }
 
-    public void setDefaultGroup(Byte defaultGroup) {
+    public void setDefaultGroup(Boolean defaultGroup) {
         this.defaultGroup = defaultGroup;
     }
-
 }

@@ -5,7 +5,7 @@
  */
 package org.jerry.frameworks.base.entity.search.exception;
 
-import com.sishuok.es.common.entity.search.SearchOperator;
+import org.jerry.frameworks.base.entity.search.SearchOperator;
 
 /**
  * <p>User: Zhang Kaitao

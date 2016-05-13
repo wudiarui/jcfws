@@ -6,7 +6,7 @@
 package org.jerry.frameworks.base.utils.forbidden;
 
 import com.google.common.collect.Lists;
-import org.jerry.frameworks.base.Constants;
+import org.jerry.frameworks.base.constants.Constants;
 import org.jerry.frameworks.base.utils.fetch.RemoteFileFetcher;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;

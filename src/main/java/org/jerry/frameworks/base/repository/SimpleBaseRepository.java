@@ -1,14 +1,13 @@
-package org.jerry.frameworks.base.repository.impl;
+package org.jerry.frameworks.base.repository;
 
 import com.google.common.collect.Sets;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.ArrayUtils;
-import org.jerry.frameworks.base.entity.AbstractEntity;
 import org.jerry.frameworks.base.entity.search.Searchable;
 import org.jerry.frameworks.base.plugin.entity.LogicDeleteable;
 import org.jerry.frameworks.base.repository.BaseRepository;
 import org.jerry.frameworks.base.repository.callback.SearchCallback;
-import org.jerry.frameworks.base.repository.support.RepositoryHelper;
+import org.jerry.frameworks.base.repository.RepositoryHelper;
 import org.jerry.frameworks.base.repository.support.annotation.QueryJoin;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.domain.Page;
@@ -18,6 +17,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.support.JpaEntityInformation;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
+import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.util.Assert;
 
 import javax.persistence.EntityManager;
@@ -34,7 +34,8 @@ import java.util.*;
  *
  * @author jerry
  */
-public class SimpleBaseRepository<T extends AbstractEntity, ID extends Serializable> extends SimpleJpaRepository<T, ID> implements BaseRepository<T, ID> {
+public class SimpleBaseRepository<T, ID extends Serializable> extends SimpleJpaRepository<T, ID>
+        implements BaseRepository<T, ID> {
     public static final String LOGIC_DELETE_ALL_QUERY_STRING = "update %s x set x.deleted=true where x in (?1)";
     public static final String DELETE_ALL_QUERY_STRING = "delete from %s x where x in (?1)";
     public static final String FIND_QUERY_STRING = "from %s x where 1=1 ";
@@ -52,6 +53,7 @@ public class SimpleBaseRepository<T extends AbstractEntity, ID extends Serializa
 
     private String entityName;
     private String idName;
+
 
     /**
      * 查询所有的QL
