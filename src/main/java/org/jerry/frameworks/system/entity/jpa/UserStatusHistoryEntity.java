@@ -1,6 +1,12 @@
 package org.jerry.frameworks.system.entity.jpa;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+import org.jerry.frameworks.base.constants.Constants;
 import org.jerry.frameworks.base.entity.jpa.BaseEntity;
+import org.jerry.frameworks.system.entity.jpa.emun.UserState;
+import org.springframework.format.annotation.DateTimeFormat;
+
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -15,34 +21,48 @@ import java.sql.Timestamp;
 @Table(name = "sys_user_status_history", schema = "eam")
 public class UserStatusHistoryEntity extends BaseEntity<Long> {
 
-    private Long userId;
-    private String status;
+    @ManyToOne(optional = true, fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SELECT)
+    private UserEntity user;
+
+    /**
+     * 锁定的用户
+     */
+    @Enumerated(value = EnumType.STRING)
+    private UserState status;
+
+    /**
+     * 备注信息
+     */
     private String reason;
-    private Long opUserId;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SELECT)
+    @JoinColumn(name = "op_user_id")
+    private UserEntity opUser;
+
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(pattern = Constants.DEFAULT_DATE_TIME_PATTERN)
+    @Column(name = "op_date")
     private Timestamp opDate;
 
-    @Basic
-    @Column(name = "user_id")
-    public Long getUserId() {
-        return userId;
+    public UserEntity getUser() {
+        return user;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setUser(UserEntity user) {
+        this.user = user;
     }
 
-    @Basic
-    @Column(name = "status")
-    public String getStatus() {
+    public UserState getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(UserState status) {
         this.status = status;
     }
 
-    @Basic
-    @Column(name = "reason")
     public String getReason() {
         return reason;
     }
@@ -51,18 +71,14 @@ public class UserStatusHistoryEntity extends BaseEntity<Long> {
         this.reason = reason;
     }
 
-    @Basic
-    @Column(name = "op_user_id")
-    public Long getOpUserId() {
-        return opUserId;
+    public UserEntity getOpUser() {
+        return opUser;
     }
 
-    public void setOpUserId(Long opUserId) {
-        this.opUserId = opUserId;
+    public void setOpUser(UserEntity opUser) {
+        this.opUser = opUser;
     }
 
-    @Basic
-    @Column(name = "op_date")
     public Timestamp getOpDate() {
         return opDate;
     }

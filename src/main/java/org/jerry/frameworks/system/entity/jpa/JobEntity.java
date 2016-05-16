@@ -1,6 +1,10 @@
 package org.jerry.frameworks.system.entity.jpa;
 
+import org.apache.commons.lang3.StringUtils;
+import org.hibernate.annotations.Formula;
+import org.jerry.frameworks.base.constants.IconConstants;
 import org.jerry.frameworks.base.entity.jpa.BaseEntity;
+import org.jerry.frameworks.base.plugin.entity.Treeable;
 
 import javax.persistence.*;
 
@@ -12,73 +16,163 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "sys_job", schema = "eam")
-public class JobEntity extends BaseEntity<Long> {
+public class JobEntity extends BaseEntity<Long> implements Treeable<Long> {
 
+    /**
+     * 标题
+     */
     private String name;
+    /**
+     * 父路径
+     */
+    @Column(name = "parent_id")
     private Long parentId;
+    @Column(name = "parent_ids")
     private String parentIds;
+    /**
+     * 图标
+     */
+    @Column(name = "icon")
     private String icon;
+    /**
+     * 权重
+     */
     private Integer weight;
-    private Byte isShow;
+    /**
+     * 是否显示
+     */
+    @Column(name = "is_show")
+    private Boolean isShow = Boolean.FALSE;
 
-    @Basic
-    @Column(name = "name")
+    @Formula(value = "(select count(*) from sys_job f_t where f_t.parent_id = id")
+    private boolean hasChildren;
+
+    public JobEntity() {}
+
+    public JobEntity(Long id) {
+        setId(id);
+    }
+
+    @Override
     public String getName() {
         return name;
     }
 
+    @Override
     public void setName(String name) {
         this.name = name;
     }
 
-    @Basic
-    @Column(name = "parent_id")
+    @Override
     public Long getParentId() {
         return parentId;
     }
 
-    public void setParentId(Long parentId) {
-        this.parentId = parentId;
-    }
-
-    @Basic
-    @Column(name = "parent_ids")
+    @Override
     public String getParentIds() {
         return parentIds;
     }
 
+    @Override
     public void setParentIds(String parentIds) {
         this.parentIds = parentIds;
     }
 
-    @Basic
-    @Column(name = "icon")
-    public String getIcon() {
-        return icon;
+    @Override
+    public void setParentId(Long parentId) {
+        this.parentId = parentId;
     }
 
-    public void setIcon(String icon) {
-        this.icon = icon;
-    }
-
-    @Basic
-    @Column(name = "weight")
-    public Integer getWeight() {
-        return weight;
-    }
-
+    @Override
     public void setWeight(Integer weight) {
         this.weight = weight;
     }
 
-    @Basic
-    @Column(name = "is_show")
-    public Byte getIsShow() {
+    @Override
+    public Integer getWeight() {
+        return weight;
+    }
+
+    @Override
+    public String makeSelfAsNewParentIds() {
+        return getParentIds() + getId() + getSeparator();
+    }
+
+    @Override
+    public String getSeparator() {
+        return "/";
+    }
+
+    @Override
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
+
+    @Override
+    public String getIcon() {
+        if (!StringUtils.isEmpty(icon)) {
+            return icon;
+        }
+        if (isRoot()) {
+            return getRootDefaultIcon();
+        }
+        if (isLeaf()) {
+            return getLeafDefaultIcon();
+        }
+        return getBranchDefaultIcon();
+    }
+
+    @Override
+    public boolean isRoot() {
+        return getParentId() != null && getParentId() == 0;
+    }
+
+    @Override
+    public boolean isLeaf() {
+        return !isRoot() && !isHasChildren();
+
+    }
+
+    @Override
+    public boolean isHasChildren() {
+        return hasChildren;
+    }
+
+    /**
+     * 根节点默认图标 如果没有默认 空即可
+     *
+     * @return  根节点默认图标
+     */
+    @Override
+    public String getRootDefaultIcon() {
+        return IconConstants.DEFAULT_TREE_ROOT_ICON;
+    }
+
+    /**
+     * 树枝节点默认图标 如果没有默认 空即可
+     *
+     * @return  树枝节点默认图标
+     */
+    @Override
+    public String getBranchDefaultIcon() {
+        return IconConstants.DEFAULT_TREE_BRANCH_ICON;
+    }
+
+    /**
+     * 树叶节点默认图标 如果没有默认 空即可
+     *
+     * @return  树叶节点默认图标
+     */
+    @Override
+    public String getLeafDefaultIcon() {
+        return IconConstants.DEFAULT_TREE_LEAF_ICON;
+    }
+
+    public Boolean getShow() {
         return isShow;
     }
 
-    public void setIsShow(Byte isShow) {
-        this.isShow = isShow;
+    public void setShow(Boolean show) {
+        isShow = show;
     }
-
 }

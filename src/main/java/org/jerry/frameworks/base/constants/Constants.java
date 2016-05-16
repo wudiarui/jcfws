@@ -54,4 +54,5 @@ public interface Constants {
 
     String ENCODING = "UTF-8";
 
+    String DEFAULT_DATE_TIME_PATTERN = "yyyy-MM-dd HH:mm:ss";
 }

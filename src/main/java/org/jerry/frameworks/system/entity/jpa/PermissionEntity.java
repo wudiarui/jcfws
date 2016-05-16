@@ -13,14 +13,24 @@ import javax.persistence.*;
 @Entity
 @Table(name = "sys_permission", schema = "eam")
 public class PermissionEntity extends BaseEntity<Long> {
-
+    /**
+     * 前端显示名称
+     */
     private String name;
+    /**
+     * 系统中验证时使用的权限标识
+     */
     private String permission;
+    /**
+     * 详细描述
+     */
     private String description;
-    private Byte isShow;
+    /**
+     * 是否显示 也表示是否可用 为了统一 都使用这个
+     */
+    @Column(name = "is_show")
+    private Boolean isShow = Boolean.FALSE;
 
-    @Basic
-    @Column(name = "name")
     public String getName() {
         return name;
     }
@@ -29,8 +39,6 @@ public class PermissionEntity extends BaseEntity<Long> {
         this.name = name;
     }
 
-    @Basic
-    @Column(name = "permission")
     public String getPermission() {
         return permission;
     }
@@ -39,8 +47,6 @@ public class PermissionEntity extends BaseEntity<Long> {
         this.permission = permission;
     }
 
-    @Basic
-    @Column(name = "description")
     public String getDescription() {
         return description;
     }
@@ -49,14 +55,11 @@ public class PermissionEntity extends BaseEntity<Long> {
         this.description = description;
     }
 
-    @Basic
-    @Column(name = "is_show")
-    public Byte getIsShow() {
+    public Boolean getShow() {
         return isShow;
     }
 
-    public void setIsShow(Byte isShow) {
-        this.isShow = isShow;
+    public void setShow(Boolean show) {
+        isShow = show;
     }
-
 }
