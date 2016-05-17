@@ -31,6 +31,7 @@
         </property>
         <property name="jpaPropertyMap">
             <map>
+                <entry key="show_sql" value="true" />
                 <!-- 使用自定义的validator进行jsr303验证 -->
                 <entry key="javax.persistence.validation.factory" value-ref="validator" />
                 <!-- 禁用验证 -->
@@ -54,15 +55,15 @@
                 <entry key="hibernate.bytecode.use_reflection_optimizer" value="${hibernate.bytecode.use_reflection_optimizer}"/>
 
                 <!--能用来完全禁止使用二级缓存. 对那些在类的映射定义中指定<cache>的类，会默认开启二级缓存.取值true|false-->
-                <!--<entry key="hibernate.cache.use_second_level_cache" value="${hibernate.cache.use_second_level_cache}"/>-->
+                <entry key="hibernate.cache.use_second_level_cache" value="${hibernate.cache.use_second_level_cache}"/>
                 <!--允许查询缓存, 个别查询仍然需要被设置为可缓存的.取值true|false-->
-                <!--<entry key="hibernate.cache.use_query_cache" value="${hibernate.cache.use_query_cache}"/>-->
+                <entry key="hibernate.cache.use_query_cache" value="${hibernate.cache.use_query_cache}"/>
                 <!--自定义的实现QueryCache接口的类名, 默认为内建的StandardQueryCache.取值classname.of.QueryCache-->
-                <!--<entry key="hibernate.cache.region.factory_class" value="${hibernate.cache.region.factory_class}"/>-->
+                <entry key="hibernate.cache.region.factory_class" value="${hibernate.cache.region.factory_class}"/>
                 <!--指定cache的配置文件-->
-                <!--<entry key="net.sf.ehcache.configurationResourceName" value="${net.sf.ehcache.configurationResourceName}"/>-->
+                <entry key="net.sf.ehcache.configurationResourceName" value="${net.sf.ehcache.configurationResourceName}"/>
                 <!--强制Hibernate以更人性化的格式将数据存入二级缓存.取值true|false-->
-                <!--<entry key="hibernate.cache.use_structured_entries" value="${hibernate.cache.use_structured_entries}"/>-->
+                <entry key="hibernate.cache.use_structured_entries" value="${hibernate.cache.use_structured_entries}"/>
             </map>
             <!--<props>-->
                 <!--<prop key="hibernate.ejb.naming_strategy">org.hibernate.cfg.ImprovedNamingStrategy</prop>-->
