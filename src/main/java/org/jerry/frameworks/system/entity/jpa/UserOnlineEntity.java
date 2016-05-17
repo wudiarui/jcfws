@@ -1,6 +1,7 @@
 package org.jerry.frameworks.system.entity.jpa;
 
 import org.apache.shiro.session.mgt.OnlineSession;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
@@ -24,6 +25,7 @@ import java.util.Date;
 )
 @Entity
 @Table(name = "sys_user_online", schema = "eam")
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class UserOnlineEntity extends AbstractEntity<String> {
 
     @Id

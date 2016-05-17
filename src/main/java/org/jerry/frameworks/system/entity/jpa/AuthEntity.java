@@ -3,9 +3,11 @@ package org.jerry.frameworks.system.entity.jpa;
 
 import com.google.common.collect.Sets;
 import org.hibernate.annotations.*;
+import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.Parameter;
 import org.jerry.frameworks.base.entity.jpa.BaseEntity;
 import org.jerry.frameworks.base.repository.hibernate.type.CollectionToStringUserType;
+import org.jerry.frameworks.base.repository.support.annotation.EnableQueryCache;
 import org.jerry.frameworks.system.entity.jpa.emun.AuthType;
 
 import javax.persistence.*;
@@ -30,6 +32,8 @@ import java.util.Set;
 )
 @Entity
 @Table(name = "sys_auth", schema = "eam")
+@EnableQueryCache
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class AuthEntity extends BaseEntity<Long> {
 
     @Column(name = "organization_id")

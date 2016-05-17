@@ -2,9 +2,11 @@ package org.jerry.frameworks.system.entity.jpa;
 
 import com.google.common.collect.Sets;
 import org.hibernate.annotations.*;
+import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.Parameter;
 import org.jerry.frameworks.base.entity.jpa.BaseEntity;
 import org.jerry.frameworks.base.repository.hibernate.type.CollectionToStringUserType;
+import org.jerry.frameworks.base.repository.support.annotation.EnableQueryCache;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
@@ -28,6 +30,8 @@ import java.util.Set;
 )
 @Entity
 @Table(name = "sys_role_resource_permission", schema = "eam")
+@EnableQueryCache
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class RoleResourcePermissionEntity extends BaseEntity<Long> {
 
     @Column(name = "resource_id")

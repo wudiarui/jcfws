@@ -1,5 +1,6 @@
 package org.jerry.frameworks.system.entity.jpa;
 
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.jerry.frameworks.base.entity.jpa.BaseEntity;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -14,6 +15,7 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "sys_user_last_online", schema = "eam")
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class UserLastOnlineEntity extends BaseEntity<Long> {
 
     /**

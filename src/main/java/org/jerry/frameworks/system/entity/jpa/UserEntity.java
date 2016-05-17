@@ -3,21 +3,24 @@ package org.jerry.frameworks.system.entity.jpa;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.*;
 import org.hibernate.validator.constraints.Length;
 import org.jerry.frameworks.base.constants.Constants;
 import org.jerry.frameworks.base.constants.ValidateConstants;
 import org.jerry.frameworks.base.entity.jpa.BaseEntity;
 import org.jerry.frameworks.base.plugin.entity.LogicDeleteable;
+import org.jerry.frameworks.base.repository.support.annotation.EnableQueryCache;
 import org.jerry.frameworks.system.entity.jpa.emun.UserState;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.OrderBy;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.sql.Timestamp;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -29,6 +32,8 @@ import java.util.Map;
  */
 @Entity
 @Table(name = "sys_user", schema = "eam")
+@EnableQueryCache
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class UserEntity extends BaseEntity<Long> implements LogicDeleteable {
 
     @NotNull(message = "{not.null}")

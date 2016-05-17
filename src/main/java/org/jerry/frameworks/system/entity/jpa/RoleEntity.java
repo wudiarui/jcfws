@@ -1,12 +1,15 @@
 package org.jerry.frameworks.system.entity.jpa;
 
 import com.google.common.collect.Lists;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.*;
 import org.jerry.frameworks.base.entity.jpa.BaseEntity;
+import org.jerry.frameworks.base.repository.support.annotation.EnableQueryCache;
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.OrderBy;
+import javax.persistence.Table;
 import java.util.List;
 
 /**
@@ -17,6 +20,8 @@ import java.util.List;
  */
 @Entity
 @Table(name = "sys_role", schema = "eam")
+@EnableQueryCache
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class RoleEntity extends BaseEntity<Long> {
 
     /**

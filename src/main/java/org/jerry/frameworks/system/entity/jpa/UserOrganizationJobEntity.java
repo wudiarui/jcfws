@@ -1,10 +1,12 @@
 package org.jerry.frameworks.system.entity.jpa;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.*;
 import org.jerry.frameworks.base.entity.jpa.BaseEntity;
+import org.jerry.frameworks.base.repository.support.annotation.EnableQueryCache;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 /**
  * The class is table <b>{@code "sys_user_organization_job"}</b> mapping Entity by JPA generate.<br/>
@@ -16,6 +18,8 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "sys_user_organization_job", schema = "eam")
+@EnableQueryCache
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class UserOrganizationJobEntity extends BaseEntity<Long> {
     @ManyToOne(optional = true, fetch = FetchType.EAGER)
     @Fetch(FetchMode.SELECT)

@@ -1,12 +1,15 @@
 package org.jerry.frameworks.system.entity.jpa;
 
 import org.apache.commons.lang3.StringUtils;
-import org.hibernate.annotations.Formula;
+import org.hibernate.annotations.*;
 import org.jerry.frameworks.base.constants.IconConstants;
 import org.jerry.frameworks.base.entity.jpa.BaseEntity;
 import org.jerry.frameworks.base.plugin.entity.Treeable;
+import org.jerry.frameworks.base.repository.support.annotation.EnableQueryCache;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 /**
  * The class is table <b>{@code "sys_job"}</b> mapping Entity by JPA generate.
@@ -16,6 +19,8 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "sys_job", schema = "eam")
+@EnableQueryCache
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class JobEntity extends BaseEntity<Long> implements Treeable<Long> {
 
     /**

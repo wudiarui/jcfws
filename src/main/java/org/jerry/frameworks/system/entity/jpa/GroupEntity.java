@@ -1,9 +1,13 @@
 package org.jerry.frameworks.system.entity.jpa;
 
+import org.hibernate.annotations.*;
 import org.jerry.frameworks.base.entity.jpa.BaseEntity;
+import org.jerry.frameworks.base.repository.support.annotation.EnableQueryCache;
 import org.jerry.frameworks.system.entity.jpa.emun.GroupType;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 /**
  * The class is table <b>{@code "sys_group"}</b> mapping Entity by JPA generate.
@@ -13,6 +17,8 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "sys_group", schema = "eam")
+@EnableQueryCache
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class GroupEntity extends BaseEntity<Long> {
 
     private String name;
