@@ -6,7 +6,7 @@ import org.jerry.frameworks.base.constants.IconConstants;
 import org.jerry.frameworks.base.entity.jpa.BaseEntity;
 import org.jerry.frameworks.base.plugin.entity.Treeable;
 import org.jerry.frameworks.base.repository.support.annotation.EnableQueryCache;
-import org.jerry.frameworks.system.entity.jpa.emun.OrganizationType;
+import org.jerry.frameworks.system.entity.jpa.type.OrganizationType;
 
 import javax.persistence.*;
 import javax.persistence.Entity;

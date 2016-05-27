@@ -8,7 +8,7 @@ import org.hibernate.annotations.Parameter;
 import org.jerry.frameworks.base.entity.jpa.BaseEntity;
 import org.jerry.frameworks.base.repository.hibernate.type.CollectionToStringUserType;
 import org.jerry.frameworks.base.repository.support.annotation.EnableQueryCache;
-import org.jerry.frameworks.system.entity.jpa.emun.AuthType;
+import org.jerry.frameworks.system.entity.jpa.type.AuthType;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
@@ -92,6 +92,15 @@ public class AuthEntity extends BaseEntity<Long> {
             roleIds = Sets.newHashSet();
         }
         return roleIds;
+    }
+
+    public void addRoleId(Long roleId) {
+        getRoleIds().add(roleId);
+    }
+
+
+    public void addRoleIds(Set<Long> roleIds) {
+        getRoleIds().addAll(roleIds);
     }
 
     public void setRoleIds(Set<Long> roleIds) {

@@ -1,6 +1,5 @@
 package org.jerry.frameworks.system.entity.jpa;
 
-import org.apache.shiro.session.mgt.OnlineSession;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
@@ -8,6 +7,7 @@ import org.hibernate.annotations.TypeDef;
 import org.jerry.frameworks.base.constants.Constants;
 import org.jerry.frameworks.base.entity.AbstractEntity;
 import org.jerry.frameworks.base.repository.hibernate.type.ObjectSerializeUserType;
+import org.jerry.frameworks.system.shiro.session.mgt.OnlineSession;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -19,10 +19,10 @@ import java.util.Date;
  *
  * @author jerry
  */
-@TypeDef(name = "SetToObjectUserType",
+/*@TypeDef(name = "SetToObjectUserType",
     typeClass = ObjectSerializeUserType.class,
     parameters = {}
-)
+)*/
 @Entity
 @Table(name = "sys_user_online", schema = "eam")
 @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
@@ -81,7 +81,7 @@ public class UserOnlineEntity extends AbstractEntity<String> {
     /**
      * 备份的当前用户会话
      */
-    @Type(type = "SetToObjectUserType")
+    @Type(type = "org.jerry.frameworks.base.repository.hibernate.type.ObjectSerializeUserType")
     @Column(name = "session")
     private OnlineSession session;
 

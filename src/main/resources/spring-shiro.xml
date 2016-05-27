@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.1.xsd">
+
+    <bean id="userRealm" class="org.jerry.frameworks.system.shiro.realm.UserRealm">
+        <property name="authenticationCachingEnabled" value="false" />
+        <property name="authorizationCachingEnabled"  value="false" />
+    </bean>
+
+    <!--Session Key 生成器-->
+    <bean id="sessionIdGenerator" class="org.apache.shiro.session.mgt.eis.JavaUuidSessionIdGenerator" />
+
+    <!--Session Key in Cookie-->
+    <bean id="sessionIdCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+        <constructor-arg value="${shiro.uid.cookie.domain}" />
+        <property name="domain" value="${shiro.uid.cookie.domain}" />
+        <property name="path" value="${shiro.uid.cookie.path}" />
+        <property name="httpOnly" value="${shiro.uid.cookie.httpOnly}" />
+        <property name="maxAge" value="${shiro.uid.cookie.maxAge}" />
+    </bean>
+    <!--Remember cookie-->
+    <bean id="rememberMeCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+        <constructor-arg value="${shiro.uid.rememeberMe.cookie.name}"/>
+        <property name="domain" value="${shiro.uid.cookie.domain}"/>
+        <property name="path" value="${shiro.uid.cookie.path}"/>
+        <property name="httpOnly" value="${shiro.uid.cookie.httpOnly}"/>
+        <property name="maxAge" value="${shiro.uid.rememeberMe.cookie.maxAge}"/>
+    </bean>
+
+    <!--Online Session Keeper -->
+    <bean id="onlineSessionDAO" class="org.jerry.frameworks.system.shiro.session.mgt.eis.OnlineSessionDAO">
+        <property name="sessionIdGenerator" ref="sessionIdGenerator" />
+        <property name="activeSessionsCacheName" value="${shiro.active.session.cacheName}" />
+    </bean>
+    <!--Online Session Factory-->
+    <bean id="onlineSessionFactory" class="org.jerry.frameworks.system.shiro.session.mgt.OnlineSessionFactory" />
+
+    <!-- manager -->
+    <!-- Remembered vs Authenticated http://www.ituring.com.cn/article/287 -->
+    <bean id="rememberMeManager" class="org.apache.shiro.web.mgt.CookieRememberMeManager">
+        <property name="cipherKey" value="#{T(org.apache.shiro.codec.Base64).decode(${shiro.uid.rememeberMe.cookie.base64.cipherKey})}" />
+        <property name="cookie" ref="rememberMeCookie" />
+    </bean>
+    <!--cache-->
+    <bean id="shiroCacheManager" class="org.jerry.frameworks.system.shiro.cache.spring.SpringCacheManagerWrapper">
+        <property name="cacheManager" ref="springCacheManager" />
+    </bean>
+
+    <!--Session validate scheduler-->
+    <bean id="sessionValidationScheduler" class="org.jerry.frameworks.system.shiro.session.mgt.scheduler.SpringSessionValidationScheduler">
+        <property name="sessionValidationInterval" value="${shiro.session.globalSessionTimeout}" />
+        <property name="sessionManager" ref="sessionManager" />
+        <property name="scheduler" ref="scheduler" />
+    </bean>
+
+    <bean id="sessionManager" class="org.jerry.frameworks.system.shiro.web.session.mgt.OnlineWebSessionManager">
+        <property name="globalSessionTimeout" value="${shiro.session.globalSessionTimeout}" />
+        <property name="sessionFactory" ref="onlineSessionFactory"/>
+        <property name="sessionDAO" ref="onlineSessionDAO"/>
+        <property name="deleteInvalidSessions" value="false"/>
+
+
+        <property name="sessionValidationInterval" value="${shiro.session.globalSessionTimeout}"/>
+        <property name="sessionValidationSchedulerEnabled" value="true"/>
+        <property name="sessionValidationScheduler" ref="sessionValidationScheduler"/>
+
+        <property name="cacheManager" ref="shiroCacheManager"/>
+        <property name="sessionIdCookieEnabled" value="true"/>
+        <property name="sessionIdCookie" ref="sessionIdCookie"/>
+    </bean>
+
+    <!--security-->
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <!-- Single realm app.  If you have multiple realms, use the 'realms' property instead. -->
+        <property name="realm" ref="userRealm"/>
+        <property name="sessionManager" ref="sessionManager"/>
+        <property name="rememberMeManager" ref="rememberMeManager"/>
+    </bean>
+
+    <!--filter-->
+    <!--login form-->
+    <bean id="formAuthenticationFilter" class="org.jerry.frameworks.system.shiro.web.filter.authc.CustomFormAuthenticationFilter">
+        <property name="adminDefaultSuccessUrl" value="${shiro.admin.default.success.url}"/>
+        <property name="defaultSuccessUrl" value="${shiro.default.success.url}" />
+        <!--form parameters-->
+        <property name="usernameParam" value="username"/>
+        <property name="passwordParam" value="password"/>
+        <property name="rememberMeParam" value="rememberMe"/>
+    </bean>
+    <!--logout filter-->
+    <bean id="logoutFilter" class="org.apache.shiro.web.filter.authc.LogoutFilter">
+        <property name="redirectUrl" value="${shiro.logout.success.url}" />
+    </bean>
+    <!--system user filter-->
+    <bean id="sysUserFilter" class="org.jerry.frameworks.system.shiro.web.filter.user.SystemUserFilter">
+        <property name="userBlockedUrl" value="${shiro.user.blocked.url}" />
+        <property name="userNotFoundUrl" value="${shiro.user.notfound.url}" />
+        <property name="userUnknownErrorUrl" value="${shiro.user.unknown.error.url}" />
+    </bean>
+    <!-- 验证会话是否是强制退出等的filter -->
+    <bean id="onlineSessionFilter" class="org.jerry.frameworks.system.shiro.web.filter.online.OnlineSessionFilter">
+        <property name="forceLogoutUrl" value="${shiro.user.force.logout.url}" />
+        <property name="onlineSessionDAO" ref="onlineSessionDAO" />
+    </bean>
+    <!--验证码-->
+    <bean id="jCaptchaValidateFilter" class="org.jerry.frameworks.system.shiro.web.filter.jcaptcha.JCaptchaValidateFilter">
+        <property name="jcaptchaEbabled" value="${shiro.jcaptcha.enable}"/>
+        <property name="jcaptchaParam" value="jcaptchaCode"/>
+        <property name="jcapatchaErrorUrl" value="${shiro.jcaptcha.error.url}"/>
+    </bean>
+    <!-- 同步当前会话数据到数据库 -->
+    <bean id="syncOnlineSessionFilter" class="org.jerry.frameworks.system.shiro.web.filter.sync.SyncOnlineSessionFilter">
+        <property name="onlineSessionDAO" ref="onlineSessionDAO" />
+    </bean>
+
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <property name="securityManager" ref="securityManager" />
+        <property name="loginUrl" value="${shiro.login.url}" />
+        <property name="unauthorizedUrl" value="${shiro.unauthorizedUrl}" />
+        <property name="filters">
+            <util:map>
+                <entry key="authc" value-ref="formAuthenticationFilter" />
+                <entry key="logout" value-ref="logoutFilter" />
+                <entry key="sysUser" value-ref="sysUserFilter" />
+                <entry key="onlineSession" value-ref="onlineSessionFilter" />
+                <entry key="syncOnlineSession" value-ref="syncOnlineSessionFilter" />
+                <entry key="jCaptchaValidate" value-ref="jCaptchaValidateFilter" />
+            </util:map>
+        </property>
+        <property name="filterChainDefinitions">
+            <value>
+                /static/** = anon
+                /jcaptcha/** = anon
+                /logout = logout
+                /login = jCaptchaValidate, authc
+                /** = sysUser,onlineSession,user,syncOnlineSession,perms,roles
+            </value>
+        </property>
+    </bean>
+
+    <!-- aop and other-->
+    <!-- For simplest integration, so that all SecurityUtils.* methods work in all cases, -->
+    <!-- make the securityManager bean a static singleton.  DO NOT do this in web         -->
+    <!-- applications - see the 'Web Applications' section below instead.                 -->
+    <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="staticMethod" value="org.apache.shiro.SecurityUtils.setSecurityManager"/>
+        <property name="arguments" ref="securityManager"/>
+    </bean>
+
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+</beans>

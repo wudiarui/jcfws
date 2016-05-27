@@ -305,4 +305,14 @@ public class RepositoryHelper {
     public <T> JpaEntityInformation<T, ?> getMetadata(Class<T> entityClass) {
         return JpaEntityInformationSupport.getEntityInformation(entityClass, entityManager);
     }
+
+    /**
+     * 获得实体类名
+     *
+     * @param entityClass   实体类
+     * @return              类名
+     */
+    public String getEntityName(Class<?> entityClass) {
+        return getMetadata(entityClass).getEntityName();
+    }
 }

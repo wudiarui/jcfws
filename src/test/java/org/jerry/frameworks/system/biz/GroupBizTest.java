@@ -2,6 +2,7 @@ package org.jerry.frameworks.system.biz;
 
 import org.jerry.frameworks.base.test.BaseTest;
 import org.jerry.frameworks.system.entity.jpa.GroupEntity;
+import org.jerry.frameworks.system.group.biz.GroupBiz;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 

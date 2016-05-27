@@ -4,7 +4,8 @@
        xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.1.xsd">
-    <context:property-placeholder location="classpath:dbconfig.properties" />
+    <context:property-placeholder location="classpath*:rashomon-*.properties" />
+
 
     <!-- spring工具类 方便在非spring管理环境中获取bean -->
     <bean id="springUtils" class="org.jerry.frameworks.base.utils.SpringUtils"/>
@@ -79,5 +80,8 @@
     <import resource="spring-mvc.xml" />
     <import resource="spring-ehcache.xml" />
     <import resource="spring-hjpa.xml" />
+    <import resource="spring-task.xml" />
+    <import resource="spring-shiro.xml" />
+    <import resource="spring-mvc-shiro.xml" />
 
 </beans>

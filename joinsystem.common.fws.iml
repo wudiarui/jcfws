@@ -3,13 +3,17 @@
   <component name="FacetManager">
     <facet type="Spring" name="Spring">
       <configuration>
+        <fileset id="web application context" name="MVC application context" removed="true">
+          <file>file://$MODULE_DIR$/src/main/resources/spring-config.xml</file>
+        </fileset>
         <fileset id="fileset" name="Spring Application Context" removed="false">
           <file>file://$MODULE_DIR$/src/main/resources/spring-config.xml</file>
           <file>file://$MODULE_DIR$/src/main/resources/spring-hjpa.xml</file>
           <file>file://$MODULE_DIR$/src/main/resources/spring-hjpa.xml</file>
-        </fileset>
-        <fileset id="web application context" name="MVC application context" removed="true">
-          <file>file://$MODULE_DIR$/src/main/resources/spring-config.xml</file>
+          <file>file://$MODULE_DIR$/src/main/resources/spring-task.xml</file>
+          <file>file://$MODULE_DIR$/src/main/resources/spring-ehcache.xml</file>
+          <file>file://$MODULE_DIR$/src/main/resources/spring-shiro.xml</file>
+          <file>file://$MODULE_DIR$/src/main/resources/spring-mvc-shiro.xml</file>
         </fileset>
       </configuration>
     </facet>
@@ -147,5 +151,9 @@
     <orderEntry type="library" name="Maven: org.hibernate:hibernate-ehcache:5.1.0.Final" level="project" />
     <orderEntry type="library" name="Maven: net.sf.ehcache:ehcache:2.10.1" level="project" />
     <orderEntry type="library" name="Maven: net.sf.ehcache:ehcache-core:2.6.11" level="project" />
+    <orderEntry type="library" name="Maven: com.octo.captcha:jcaptcha:1.0" level="project" />
+    <orderEntry type="library" name="Maven: com.octo.captcha:jcaptcha-api:1.0" level="project" />
+    <orderEntry type="library" name="Maven: com.jhlabs:imaging:01012005" level="project" />
+    <orderEntry type="library" name="Maven: javax.servlet:servlet-api:2.3" level="project" />
   </component>
 </module>

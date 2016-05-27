@@ -3,7 +3,7 @@ package org.jerry.frameworks.system.entity.jpa;
 import org.hibernate.annotations.*;
 import org.jerry.frameworks.base.entity.jpa.BaseEntity;
 import org.jerry.frameworks.base.repository.support.annotation.EnableQueryCache;
-import org.jerry.frameworks.system.entity.jpa.emun.GroupType;
+import org.jerry.frameworks.system.entity.jpa.type.GroupType;
 
 import javax.persistence.*;
 import javax.persistence.Entity;

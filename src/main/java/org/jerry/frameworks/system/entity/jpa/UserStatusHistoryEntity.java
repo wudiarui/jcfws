@@ -4,12 +4,12 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.jerry.frameworks.base.constants.Constants;
 import org.jerry.frameworks.base.entity.jpa.BaseEntity;
-import org.jerry.frameworks.system.entity.jpa.emun.UserState;
+import org.jerry.frameworks.system.entity.jpa.type.UserState;
 import org.springframework.format.annotation.DateTimeFormat;
 
 
 import javax.persistence.*;
-import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  * The class is table <b>{@code "sys_user_status_history"}</b> mapping Entity by JPA generate.
@@ -45,7 +45,7 @@ public class UserStatusHistoryEntity extends BaseEntity<Long> {
     @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(pattern = Constants.DEFAULT_DATE_TIME_PATTERN)
     @Column(name = "op_date")
-    private Timestamp opDate;
+    private Date opDate;
 
     public UserEntity getUser() {
         return user;
@@ -79,11 +79,11 @@ public class UserStatusHistoryEntity extends BaseEntity<Long> {
         this.opUser = opUser;
     }
 
-    public Timestamp getOpDate() {
+    public Date getOpDate() {
         return opDate;
     }
 
-    public void setOpDate(Timestamp opDate) {
+    public void setOpDate(Date opDate) {
         this.opDate = opDate;
     }
 }

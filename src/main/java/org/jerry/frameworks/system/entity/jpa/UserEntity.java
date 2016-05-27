@@ -10,7 +10,7 @@ import org.jerry.frameworks.base.constants.ValidateConstants;
 import org.jerry.frameworks.base.entity.jpa.BaseEntity;
 import org.jerry.frameworks.base.plugin.entity.LogicDeleteable;
 import org.jerry.frameworks.base.repository.support.annotation.EnableQueryCache;
-import org.jerry.frameworks.system.entity.jpa.emun.UserState;
+import org.jerry.frameworks.system.entity.jpa.type.UserState;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -21,6 +21,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -65,7 +66,7 @@ public class UserEntity extends BaseEntity<Long> implements LogicDeleteable {
     @DateTimeFormat(pattern = Constants.DEFAULT_DATE_TIME_PATTERN)
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "create_date")
-    private Timestamp createDate;
+    private Date createDate;
 
     @Enumerated(EnumType.STRING)
     private UserState status = UserState.normal;
@@ -170,11 +171,11 @@ public class UserEntity extends BaseEntity<Long> implements LogicDeleteable {
         this.status = status;
     }
 
-    public Timestamp getCreateDate() {
+    public Date getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(Timestamp createDate) {
+    public void setCreateDate(Date createDate) {
         this.createDate = createDate;
     }
 
